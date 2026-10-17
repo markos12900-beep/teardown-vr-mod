@@ -11,12 +11,18 @@ You look around with your head, aim with your hand and pick things up with your 
 ## What it does
 
 * **Real 3D with head tracking.** The world is around you and follows your head (look, lean, duck).
-* **Hands with gloves.** Both controllers show 3D voxel gloves. Squeeze the grip for a fist, pull the trigger to point.
+* **Blocky hands.** Both controllers show square, block-style hands and forearms (our own pixel art).
+  Squeeze the grip for a fist, pull the trigger to point. Work gloves and bare hands are still there as options.
 * **The tool in your hand.** The sledgehammer, guns, spray can and the other tools sit in your right hand and turn with it.
-* **Grab and throw with your hands.** Squeeze a grip next to a loose object to pick it up. Let go while you swing to throw it. Moving hands push things.
+* **Grab and throw with your hands.** Squeeze a grip next to a loose object to pick it up. Let go while you swing to throw it.
+* **Solid hands (new).** Your hands push things, rest on tables and stop at walls. Punch a box and it flies.
+* **See your body (new).** Look down and you see your character's body and legs. Your lower legs are solid, so walking kicks cans away.
 * **Controller mapping.** Walk, turn, jump, crouch, use tools, open the map and more, all from the controllers.
 * **Menus on a screen.** Menus, the map and cutscenes appear on a big flat screen in front of you. Point with the laser and pull the trigger to click.
 * **Three VR modes.** Stereo (3D), mono (smoother, no depth) and theater (the whole game on a flat screen).
+
+> **The solid hands, punching and the visible body are brand new in v0.22 and have not been tested in a headset yet.**
+> If one of them bothers you, switch just that part off in `teardown_vr.ini` (see "Settings" and "Troubleshooting").
 
 ## Requirements
 
@@ -41,6 +47,13 @@ You look around with your head, aim with your hand and pick things up with your 
 
 The mod finds SteamVR by itself within a few seconds.
 
+### Updating from an older version
+
+Close Teardown and run `Install.bat` from the new zip. That is all.
+If you had a settings file from an older version, `Install.bat` moves it to `teardown_vr.ini.<old version>.bak`
+(for example `teardown_vr.ini.v0.20.bak`) and the mod writes a new file with all the new options at the next start.
+Copy over any value you had changed.
+
 ### Game options to change once
 
 These game options shake or blur the VR view, and a mod cannot change them. Set them yourself in Teardown's **Options**:
@@ -54,12 +67,14 @@ If your Steam shows it: right-click Teardown > *Properties* > *General* and turn
 
 ## Steam Workshop version
 
-There is also a **Teardown VR Mod** item on the Steam Workshop. Please read this first:
+There is also a [**Teardown VR Mod** item on the Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3815974803). Please read this first:
 
 * The Workshop item contains **only the Lua part** of the mod. It does nothing on its own.
 * You **still need `dxgi.dll` from this release**. Run `Install.bat` from the zip as described above.
+  When the Workshop item gets a new version, also install the `dxgi.dll` of the same version.
 * **Do not enable both** the Workshop copy and the local copy (Mods > Local files) at the same time. Enable only one of them.
-* The Workshop copy and the local copy are the same. Both use the tool models from your own Teardown installation, so it does not matter which one you enable.
+* The Workshop copy and the local copy are the same. Both use the tool and character models from your own Teardown
+  installation, so it does not matter which one you enable.
 
 ## Controls
 
@@ -80,6 +95,8 @@ There is also a **Teardown VR Mod** item on the Steam Workshop. Please read this
 | Left stick click | Flashlight (F) | - |
 | Left stick click, **hold** | Switch aiming: hand or head | same |
 | Right stick click | Recenter the view | Recenter the view |
+
+To punch, just hit an object fast with your hand. No button is needed.
 
 Keyboard (with the game window in focus):
 
@@ -119,14 +136,25 @@ The most useful options:
 | `world_scale = 1` | Change it if the world feels too big or too small |
 | `ipd_scale = 1` | Strength of the 3D effect. 0 = flat, bigger = stronger |
 | `theater_distance`, `theater_width` | Where and how big the flat menu screen is (metres) |
-| `hand_style = gloves` | `gloves`, `lines` or `off` |
-| `hand_texture = glove` | `glove` (work gloves) or `skin` (bare hands) |
-| `hand_offset_pos`, `hand_offset_rot` | Nudge the gloves if they sit wrong on your controllers |
+| `hand_style = gloves` | `gloves` (3D hands, see `hand_texture`), `lines` or `off` |
+| `hand_texture = blocky` | `blocky` (square block-style hands and forearms), `glove` (work gloves) or `skin` (bare hands) |
+| `hand_offset_pos`, `hand_offset_rot` | Nudge the hands if they sit wrong on your controllers |
 | `hand_physics = yes` | Grab, throw and push objects with your hands |
 | `grab_max_mass = 120` | Heaviest object (kg) a hand can lift |
+| `hand_collision = yes` | Solid hands: they push things, rest on tables and stop at walls. `no` = hands pass through everything |
+| `hand_strength = normal` | How hard solid hands push and punch: `weak` (breaks less), `normal` or `strong` (moves heavy things) |
+| `hand_punch = yes` | A fast hit with a solid hand knocks loose objects away. `no` = solid hands only push |
+| `hand_steady = yes` | Keeps solid hands steady while you walk and when they touch a wall. `no` = the older hand movement |
+| `show_body = yes` | See your character's body and legs when you look down. `no` = no body |
+| `body_turn = yes` | Your body turns toward where you look once you turn your head more than about 50 degrees. `no` = it only turns when you use a tool or turn with the stick |
+| `body_collision = yes` | Solid lower legs: walking kicks cans and small objects. `no` = only the game's normal player shape touches things |
+| `scope_zoom = no` | `no` = the headset picture stays normal while you aim (the rifle scope and other tools that zoom). `yes` = it zooms in, as on a monitor |
 | `haptic_scale = 1` | Controller vibration. 0 = off, 2 = double |
 | `bind_<button> = <key>` | Change what a controller button does (the file lists all names) |
 | `enabled = yes` | `no` turns the whole mod off without uninstalling it |
+
+Solid hands need `hand_style = gloves`. Solid hands, punching, solid legs and the visible body work in single-player only.
+In multiplayer they stay off by themselves.
 
 ## Sharper picture
 
@@ -144,6 +172,19 @@ More pixels in the game means a sharper picture in the headset. The best way is 
 * **Experimental.** Things may break, look odd or run slowly.
 * **Single-player only.** Do not use this mod in multiplayer.
 * **Only tested on Meta Quest 3 with Steam Link.** Other headsets are untested.
+* **New features are untested.** The visible body, solid hands, punching, steady hands, solid legs and the scope
+  setting are brand new. A first test of an unreleased version showed problems (no body, weak hands, shaking hands).
+  They were reworked for v0.22, but nobody has tried them in a headset yet. Each one can be switched off on its own.
+* **Your body is a copy.** When you look down you see a copy of your game character that the mod draws itself.
+  Head and arms stay hidden (your VR hands replace the arms). If you change character, the copy is rebuilt by itself.
+  The body hides itself in vehicles, when riding something, in water, when you lean or crouch far, when you die and in multiplayer.
+* **Solid hands at walls.** A wall stops your hand. A thin outline then shows where your real hand is,
+  and the tool keeps aiming where your real hand points.
+* **Only the lower legs are solid.** Feet, thighs and the upper body use the game's normal player shape.
+* **Short self-test.** When a level starts, the mod quickly checks that solid hands and legs are safe.
+  If they are not, it turns them off by itself until the next level loads.
+* **Scope.** With `scope_zoom = no` the mod asks the game not to zoom while you aim with any tool. If the game does not
+  allow it, the picture zooms as before. The game's black scope ring may still show while you aim.
 * **The tool in your hand is usually a copy.** While you hold a tool, you see a steady copy of it in your hand.
   The game's own tool only comes to your hand while you use it, so the bullets and sparks start in the right place.
   Tools from other mods always use the game's own tool.
@@ -193,6 +234,20 @@ Set *Head bob* to 0 and turn *Tool sway* off in the game's *Options* > *Input*.
 
 **I feel sick.**
 Switch to mono (hold the left menu button for about half a second) or theater mode. Use snap turning. Take breaks.
+
+**I want to switch off one of the new features.**
+Open `teardown_vr.ini`, change the value, save and press **F6** in the game:
+
+* Body looks wrong or gets in the way: `show_body = no`
+* Body turns when you do not want it to: `body_turn = no`
+* Hands shake, stick to walls or get in the way: `hand_collision = no` (hands pass through everything again, as in v0.20)
+* Punches throw things too far or break too much: `hand_strength = weak`, or `hand_punch = no`
+* Legs catch on stairs or kick things you did not want to: `body_collision = no`
+* You want the scope to zoom the picture: `scope_zoom = yes`
+* You prefer the old gloves: `hand_texture = glove`
+
+**The game got slower with v0.22.**
+The visible body and the steady hands cost some frame rate. Try `show_body = no` or `hand_steady = no`.
 
 ## Licence
 
